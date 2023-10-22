@@ -20,12 +20,13 @@ if (isset($_POST['submit'])) {
     $query1 = "SELECT * FROM tbl_user WHERE email = '{$email}' AND pwd ='{$password}' LIMIT 1";
     $showResult = mysqli_query($conn, $query1);
     $row = mysqli_fetch_array($showResult);
+    // Set a session variable
+    $_SESSION['user_email'] = $row['email'];
+    $_SESSION['user_type'] = 'user';
 
 
     if ($row["user_type"] == "user") {
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['user_name'] = $row['name'];
-        $_SESSION['user_type'] = $row['user_type'];
+
 
 
         // header("Refresh: 2; url= Pages/Home/index.php");
@@ -42,14 +43,10 @@ if (isset($_POST['submit'])) {
       </div>";
         }
     } else if ($row["user_type"] == "tailor") {
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['user_name'] = $row['name'];
-        $_SESSION['user_type'] = $row['user_type'];
+
         header("Location: Pages/Tailor/tailor.php");
     } else if ($row["user_type"] == "admin") {
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['user_name'] = $row['name'];
-        $_SESSION['user_type'] = $row['user_type'];
+
         header("Location: Pages/Admin/admin.php");
     } else {
         echo "error";
