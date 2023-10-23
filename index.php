@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
     $row = mysqli_fetch_array($showResult);
     // Set a session variable
     $_SESSION['user_email'] = $row['email'];
-    $_SESSION['user_type'] = 'user';
+    $_SESSION['user_type'] = $row['user_type'];
 
 
     if ($row["user_type"] == "user") {
