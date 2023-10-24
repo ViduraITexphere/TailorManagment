@@ -1,0 +1,117 @@
+/* styles.css */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Inter", sans-serif;
+}
+header {
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.username {
+  margin-right: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  min-width: 50px;
+  z-index: 1;
+  right: 0;
+}
+
+.dropdown-content a {
+  color: #fff;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Style the dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #444;
+}
+
+/* Style the card links */
+.card .card-img-top {
+  border-radius: 10px !important;
+}
+
+.card {
+  border: none !important;
+  width: 20vw !important; /* Default width */
+}
+.card-body {
+  margin-top: 5px;
+  padding: 0 !important;
+}
+.card-body h5 {
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+}
+.card-body p {
+  font-size: 13px;
+  font-family: "Inter", sans-serif;
+}
+.btn-primary {
+  border-radius: 50px;
+  width: 120px;
+}
+.btn-primary:hover {
+  background-color: #181818 !important;
+  border-color: #181818 !important;
+}
+.rate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fa-star {
+  color: #f1c40f;
+}
+
+/* Responsive design */
+@media (min-width: 1600px) {
+  /* Adjust the card width for screens up to 768px */
+  .card {
+    width: 16vw !important; /* Change the width for smaller screens */
+  }
+}
