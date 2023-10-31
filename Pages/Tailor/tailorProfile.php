@@ -1,4 +1,22 @@
 <?php
+session_start();
+// Check if the user is logged in
+if (isset($_SESSION['user_email']) && isset($_SESSION['user_type'])) {
+    $userEmail = $_SESSION['user_email'];
+    $userType = $_SESSION['user_type'];
+    $userId = $_SESSION['user_id'];
+    $userName = $_SESSION['user_name'];
+
+    // Now you can use $userEmail and $userType in your code
+    echo "Logged-in user's email: " . $userEmail . "<br>";
+    echo "Logged-in user's type: " . $userType . "<br>";
+    echo "Logged-in user's ID: " . $userId . "<br>";
+    echo "Logged-in user's name: " . $userName . "<br>";
+} else {
+    // User is not logged in, handle accordingly
+}
+?>
+<?php
 include_once('../../inc/conn.php');
 
 if (isset($_GET['id'])) {
@@ -23,35 +41,6 @@ if (isset($_GET['id'])) {
 }
 ?>
 
-<?php
-include_once('../../inc/conn.php');
-// check there is a category in the db equal to the category in the url
-//check if the category is in the db
-if (isset($_GET['category'])) {
-    $category = $_GET['category'];
-    echo $category;
-    $sql = "SELECT * FROM categories WHERE category = '$category'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        // category exists in the db
-        // get the category id
-        $row = $result->fetch_assoc();
-        $mesurements = $row['measure'];
-        echo $mesurements;
-    } else {
-        // category does not exist in the db
-        // redirect to the tailor profile page
-        header("Location: tailorProfile.php?id=$tailorId");
-    }
-} else {
-    // no category in the url
-    // redirect to the tailor profile page
-    // echo "no category";
-}
-?>
-
-
 
 
 <!DOCTYPE html>
@@ -63,26 +52,26 @@ if (isset($_GET['category'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
-<?php
-include_once('../../components/Header/header.php');
-?>
-<div>
+<body>
+    <!-- tailors profile -->
+    <h1 class="text-center"><?php echo $tailorName; ?></h1>
+    <img src="<?php echo $tailorImg; ?>" alt="Tailor Image" class="profile_img">
+    <br>
+    <br>
+    <!-- echo user id and tailor id -->
+    <h1 class="text-center">User ID: <?php echo $userId; ?></h1>
+    <h1 class="text-center">Tailor ID: <?php echo $tailorId; ?></h1>
 
-    <body>
-        <h1 class="text-center"><?php echo $tailorName; ?></h1>
-        <img src="<?php echo $tailorImg; ?>" alt="Tailor Image" class="profile_img">
-
-
-</div>
-<div>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <!-- Modaal Open Button-->
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal">
         Launch demo modal
     </button>
 
-    <!-- Modal -->
-    <!-- Category Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+
+    <!-- Modal- Category -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -111,26 +100,120 @@ include_once('../../components/Header/header.php');
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-secondary" id="viewMeasurements">View Measurements</button>
+                    <button type="button" class="btn btn-secondary" id="viewMeasurements" data-bs-toggle="modal" data-bs-target="#measurementsModal">View Measurements</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        document.getElementById("viewMeasurements").addEventListener("click", function() {
-            var selectedCategory = document.getElementById("categorySelect").value;
-            // show result with the selected category and tailor id as a parameter in same page
-            window.location.href = "tailorProfile.php?id=<?php echo $tailorId; ?>&category=" + selectedCategory;
+    <!----------------------------------------------------------------------------------------------------------------------------------------->
 
+
+    <!-- Modal- Measurements -->
+    <div class="modal fade" id="measurementsModal" tabindex="-1" aria-labelledby="measurementsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="measurementsModalLabel">Measurements for Selected Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="measurementsPlaceholder">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveMeasurements">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#categorySelect').on('change', function() {
+                var category = $("#categorySelect").val();
+                $.ajax({
+                    url: "getMeasurements.php",
+                    type: "POST",
+                    data: {
+                        category: category
+                    },
+                    success: function(data) {
+                        var measurements = JSON.parse(data);
+
+                        // Clear any existing content in the measurementsPlaceholder
+                        $('#measurementsPlaceholder').empty();
+
+                        // Generate input fields and labels for each measurement
+                        measurements.forEach(function(measurement) {
+                            var inputField = document.createElement('input');
+                            inputField.type = 'text';
+                            inputField.name = measurement;
+                            inputField.placeholder = measurement;
+                            inputField.className = 'form-control';
+
+                            // Create a label element
+                            var label = document.createElement('label');
+                            label.innerHTML = measurement; // Use the measurement as the label text
+
+
+
+
+                            // Create a container div to hold the label and input
+                            var container = document.createElement('div');
+                            container.appendChild(label);
+                            container.appendChild(inputField);
+
+                            // Append the container to the measurementsPlaceholder
+                            $('#measurementsPlaceholder').append(container);
+                        });
+                    }
+                });
+
+                $('#saveMeasurements').on('click', function() {
+                    // Get tailor ID and user ID
+                    var tailorId = <?php echo $tailorId; ?>;
+                    var userId = <?php echo $userId; ?>;
+                    var category = $("#categorySelect").val();
+
+                    // Collect the measurements
+                    var measurements = {};
+                    $('input[type="text"]').each(function() {
+                        measurements[$(this).attr('name')] = $(this).val();
+                    });
+
+                    // Send the data to the server using AJAX
+                    $.ajax({
+                        url: "saveMeasurements.php",
+                        type: "POST",
+                        data: {
+                            tailorId: tailorId,
+                            userId: userId,
+                            category: category,
+                            measurements: JSON.stringify(measurements)
+                        },
+                        success: function(response) {
+                            // Handle the server's response (if needed)
+                            console.log(response);
+                        }
+                    });
+                });
+
+
+
+            });
         });
     </script>
 
 
-</div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>
