@@ -96,6 +96,9 @@ if (isset($_GET['id'])) {
                     <div class="subHeading">
                         <h4 class="tailor_category"><?php echo $tailorCategories; ?></h4>
                     </div>
+                    <?php
+                    include_once('reviews.php');
+                    ?>
                     <br>
                     <div class="des">
 
@@ -103,14 +106,14 @@ if (isset($_GET['id'])) {
                             <h3>
                                 Job Brief:
                             </h3>
-                            <br>
+
                             We’re looking for Tailor to help us with our latest project. We need someone who is creative and has a good eye for detail. Tailor must be able to work independently and be able to take direction well. If you think you have what it takes, please send us your portfolio and a brief description of your experience.
                             <br>
                             <br>
                             <h3>
                                 Tailor Duties:
                             </h3>
-                            <br>
+
                             Review and approve all client design specifications
                             Maintain strict quality control standards across all aspects of checks, passes, and alterations
                             Manage all inventory and ordering of materials
@@ -162,27 +165,25 @@ if (isset($_GET['id'])) {
                             Our company is committed to diversity and inclusion in the workplace. We encourage applications from people of all races, religions, nationalities, genders, , , and ages.
                         </h4>
                     </div>
-                </div>
 
-                <!-- Modaal Open Button -->
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal">
-                    Launch demo modal
-                </button>
-                <div class="alert_wrapper">
-                    <div class="alert" id="successAlert" style="display: none;">
-                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                        This is an alert box.
+                    <!-- Modaal Open Button -->
+                    <button type="button" class="btn_order" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                        Order Design
+                    </button>
+                    <div class="alert_wrapper">
+                        <div class="alert" id="successAlert" style="display: none;">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            This is an alert box.
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="reviews">
+                        <?php
+                        include_once('feedbacks.php');
+                        ?>
                     </div>
                 </div>
-
-
-                <!-- <div class="alert alert-success alert-dismissible d-none" id="successAlert" role="alert">
-                    Order saved successfully!
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div> -->
-
             </div>
         </div>
     </div>
@@ -369,6 +370,28 @@ if (isset($_GET['id'])) {
 
 
         });
+    </script>
+    <script>
+        function formatTimeAgo(dateString) {
+            const now = new Date();
+            const date = new Date(dateString);
+            const timeDifference = now - date;
+            const minutesAgo = Math.floor(timeDifference / 60000);
+
+            if (minutesAgo < 1) {
+                return "Just now";
+            } else if (minutesAgo === 1) {
+                return "1 minute ago";
+            } else if (minutesAgo < 60) {
+                return minutesAgo + " minutes ago";
+            } else if (minutesAgo < 1440) {
+                const hoursAgo = Math.floor(minutesAgo / 60);
+                return hoursAgo + " hours ago";
+            } else {
+                const daysAgo = Math.floor(minutesAgo / 1440);
+                return daysAgo + " days ago";
+            }
+        }
     </script>
 
 </body>
