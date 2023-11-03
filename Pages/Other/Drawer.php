@@ -1,6 +1,6 @@
-<?php 
-    session_start();
-    $user_type = $_SESSION['user_type'];
+<?php
+session_start();
+$user_type = $_SESSION['user_type'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,12 +20,8 @@
         .sidebar {
             background-color: #141414;
             height: 100vh;
-            padding: 0;
+            padding: 10px;
             margin: 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
         }
 
         .sidebar_menu {
@@ -99,83 +95,44 @@
 
         <div class="sidebar">
             <div class="sidebar_logo">
-                <img src="../../Assets/Images/logo.png" alt="logo">
+                <img src="https://i.postimg.cc/c1jsCB7t/Logo.png" alt="logo">
             </div>
             <hr />
 
             <div class="sidebar_menu">
-            <?php if($user_type == "admin") { ?>
-                <div class="sidebar_menu_item">
-                    <i class="bi bi-p-square-fill"></i>
-                    <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
-                        <a href="../../Pages/Other/ManageUsers.php">
+                <?php if ($user_type == "tailor") { ?>
+                    <div class="sidebar_menu_item">
+                        <i class="bi bi-p-square-fill"></i>
+                        <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
+                            <a href="../../Pages/Tailor/manageOrders.php">
+                                Manage Orders
+                            </a>
+                    </div>
+                    <div class="sidebar_menu_item">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="Users.php">Profile</a>
+                    </div>
 
-                            Manage User
+                    <div class="sidebar_menu_item">
+                        <i class="bi bi-p-square-fill"></i>
+                        <a type="text" data-toggle="dropdown" style="color:aliceblue">
+                            Reports
+                            <i class="bi bi-caret-down-fill"></i>
                         </a>
-                </div>
-                <div class="sidebar_menu_item">
-                    <i class="bi bi-person-fill"></i>
-                    <a href="Users.php">Groups</a>
-                </div>
-                <div class="sidebar_menu_item">
-                    <i class="bi bi-people-fill"></i>
-                    <a href="Groups.php">Category</a>
-                </div>
-                <div class="sidebar_menu_item">
-                    <i class="bi bi-p-square-fill"></i>
-                    <a type="text" data-toggle="dropdown" style="color:aliceblue">
-                        Rate
-                        <i class="bi bi-caret-down-fill"></i>
-                    </a>
 
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="color:black; background-color: black; height:100px;">
-                        <a class="dropdown-item" href="../../Pages/Other/AddRate.php">Add Rating</a>
-                        <a class="dropdown-item" href="../../Pages/Other/ManageRating.php">Manage Rating</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="color:black; background-color: black; height:100px;">
+                            <a class="dropdown-item" href="../../Pages/Other/AddRate.php">Add Rating</a>
+                            <a class="dropdown-item" href="../../Pages/Other/ManageRating.php">Manage Rating</a>
 
+                        </div>
                     </div>
-                </div>
-                <div class="sidebar_menu_item">
-                    <i class="bi bi-p-square-fill"></i>
-                    <a type="text" data-toggle="dropdown" style="color:aliceblue">
-                        Parking Slots
-                        <i class="bi bi-caret-down-fill"></i>
-                    </a>
 
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="color:black; background-color: black; height:100px;">
-                        <a class="dropdown-item" href="../../Pages/Other/AddParkingSlot.php">Add Parking Slot</a>
-                        <a class="dropdown-item" href="../../Pages/Other/ManageParkingSlots.php">Manage Parking Slot</a>
-
+                <?php }
+                if ($user_type == "user") { ?>
+                    <div class="sidebar_menu_item">
+                        <i class="bi bi-p-square-fill"></i>
+                        <a href="../../Pages/User/Home/my_bookings.php">My Bookings</a>
                     </div>
-                </div>
-                <div class="sidebar_menu_item">
-                    <i class="bi bi-p-square-fill"></i>
-                    <a type="text" data-toggle="dropdown" style="color:aliceblue">
-                        Parking
-                        <i class="bi bi-caret-down-fill"></i>
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="color:black; background-color: black; height:100px;">
-                        <a class="dropdown-item" href="../../Pages/Other/AddParkingSlot.php">Add Parking</a>
-                        <a class="dropdown-item" href="../../Pages/Other/ManageParking.php">Manage Parking</a>
-
-                    </div>
-                </div>
-                <div class="sidebar_menu_item">
-                    <i class="bi bi-p-square-fill"></i>
-                    <a type="text" data-toggle="dropdown" style="color:aliceblue">
-                        Reports
-                        <i class="bi bi-caret-down-fill"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="color:black; background-color: black; height:100px;">
-                        <a class="dropdown-item" href="../../Pages/Other/IncomeReport.php">Income Report</a>
-                        <a class="dropdown-item" href="../../Pages/Other/EntryExitReport.php">Parking Report</a>
-                    </div>
-                </div>
-                <?php } if($user_type == "user") { ?>
-                <div class="sidebar_menu_item">
-                <i class="bi bi-p-square-fill"></i>
-                    <a href="../../Pages/User/Home/my_bookings.php">My Bookings</a>
-                </div>
                 <?php } ?>
             </div>
 

@@ -13,29 +13,47 @@ if (isset($_POST['submit'])) {
     $email = input_validate($_POST['email']);
     $password = input_validate($_POST['password']);
 
-    //INSERT Values into database
-    $query1 = "SELECT * FROM tbl_user WHERE email = '{$email}' AND pwd ='{$password}' LIMIT 1";
-    $showResult = mysqli_query($conn, $query1);
-    $row = mysqli_fetch_array($showResult);
+    $query2 = "SELECT * FROM tailors WHERE email = '{$email}' AND password = '{$password}' LIMIT 1";
+    $showResult2 = mysqli_query($conn, $query2);
+    $row2 = mysqli_fetch_array($showResult2);
 
-    if (mysqli_num_rows($showResult) == 1) {
-        // Set a session variable
-        $_SESSION['user_email'] = $row['email'];
-        $_SESSION['user_type'] = $row['user_type'];
+    if (mysqli_num_rows($showResult2) == 1) {
 
-        if ($row["user_type"] == "user") {
-            header("Location: Pages/Customer/index.php");
-        } elseif ($row["user_type"] == "tailor") {
+
+
+        if ($row2["email"] == $email && $row2["password"] == $password) {
+            // Set a session variable
+            $_SESSION['tailorId'] = $row2['id'];
+            $_SESSION['userName'] = $row2['username'];
+            $_SESSION['tailorEmail'] = $row2['email'];
+            $_SESSION['user_type'] = $row2['user_type'];
             header("Location: Pages/Tailor/tailor.php");
-        } elseif ($row["user_type"] == "admin") {
-            header("Location: Pages/Admin/admin.php");
         } else {
             echo "error";
         }
     } else {
-        $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-            <strong>Please check your email or password! </strong> Enter correct credentials.
-        </div>";
+        $query1 = "SELECT * FROM tbl_user WHERE email = '{$email}' AND pwd = '{$password}' LIMIT 1";
+        $showResult = mysqli_query($conn, $query1);
+        $row = mysqli_fetch_array($showResult);
+
+        // If login credentials are not found in the "tbl_another" table, you can continue checking in the "tbl_user" table
+        if (mysqli_num_rows($showResult) == 1) {
+            // Set a session variable as you did for the "tbl_user" table
+            $_SESSION['user_email'] = $row['email'];
+            $_SESSION['user_type'] = $row['user_type'];
+
+            if ($row["user_type"] == "user") {
+                header("Location: Pages/Customer/index.php");
+            } elseif ($row["user_type"] == "admin") {
+                header("Location: Pages/Admin/admin.php");
+            } else {
+                echo "error";
+            }
+        } else {
+            $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                <strong>Please check your email or password! </strong> Enter correct credentials.
+            </div>";
+        }
     }
 }
 
