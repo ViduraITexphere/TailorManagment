@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
     // You can validate and sanitize the input here if needed
 
     // Insert the cost into the database
-    $query = "INSERT INTO tbl_cost (order_id, cost, cus_id, tailor_id, orderrequest_date) VALUES ('$order_id', '$cost', $tailor_id, $cus_id, NOW())";
+    $query = "INSERT INTO tbl_cost (order_id, cost, cus_id, tailor_id, orderrequest_date) VALUES ('$order_id', '$cost', $cus_id, $tailor_id, NOW())";
     $result = mysqli_query($conn, $query);
 
     if ($result) {

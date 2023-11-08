@@ -23,7 +23,7 @@
             <div class="dropdown">
                 <button class="dropbtn">Profile</button>
                 <div class="dropdown-content">
-                    <a href="#">Profile</a>
+                    <a href="../../Pages/Customer/userProfile.php">Profile</a>
                     <a href="../Auth/Logout/Logout.php">Logout</a>
                 </div>
             </div>

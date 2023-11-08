@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,7 +94,9 @@
                                 <th scope="col">Customer Id</th>
                                 <th scope="col">Order Date</th>
                                 <th scope="col">Category</th>
+                                <th scope="col">Paid Status</th>
                                 <th scope="col">Action</th>
+
 
 
 
@@ -135,9 +140,21 @@
                                 // check tailorId which is getting from session
                                 $tailorId = $_SESSION['tailorId'];
                                 // get all the orders which are related to that tailor
-                                $sql = "SELECT * FROM tbl_order WHERE tailor_id = '$tailorId'";
+                                // $sql = "SELECT * FROM tbl_order WHERE tailor_id = '$tailorId'";
+                                // get tbl_order as well as tbl_cost pay_status value
+                                // check paid status is paid or null and get those orders
+
+                                // i want to show also null values in pay_status column
+                                
+                                $sql = "SELECT tbl_order.*, tbl_cost.pay_status FROM tbl_order LEFT JOIN tbl_cost ON tbl_order.order_id = tbl_cost.order_id WHERE tbl_order.tailor_id = '$tailorId'";
+
+
                                 $result = mysqli_query($conn, $sql);
+                                if (!$result) {
+                                    die("Database query failed: " . mysqli_error($conn));
+}
                                 while ($row = mysqli_fetch_assoc($result)) {
+                                    // var_dump($row);
                                 ?>
 
                                     <tr>
@@ -145,13 +162,19 @@
                                         <td><?php echo $row['cus_id'] ?></td>
                                         <td><?php echo $row['order_date'] ?></td>
                                         <td><?php echo $row['category'] ?></td>
+                                        <td><?php echo $row['pay_status'] ?></td>
                                         <td>
                                             <a href="#" class="link-dark edit-link" data-toggle="modal" data-target="#viewMeasurementsModal" data-order-id="<?php echo $row['order_id']; ?>">
                                                 <i class="fa-solid fa-pen-to-square fs-5 me-3"></i>
                                             </a>
-                                            <a href="#" class="link-dark edit-link" data-toggle="modal" data-target="#addCostModal" data-order-id="<?php echo $row['order_id']; ?>" data-cus-id="<?php echo $row['cus_id']; ?>" data-tailor-id="<?php echo $row['tailor_id']; ?>">
-                                                <i class="fa-solid fa-pen-to-square fs-5 me-3"></i>
-                                            </a>
+                                            <!-- hide edit button cost already added -->
+                                <?php
+                            if ($row['pay_status'] == null) {
+                                    echo '<a href="#" class="link-dark edit-link" data-toggle="modal" data-target="#addCostModal" data-order-id="' . $row['order_id'] . '" data-cus-id="' . $row['cus_id'] . '" data-tailor-id="' . $row['tailor_id'] . '">
+                                            <i class="fa-solid fa-pen-to-square fs-5 me-3"></i>
+                                        </a>';
+                                }
+                                    ?>
 
 
                                             <a href="delete.php?id=<?php echo $row['id'] ?>" class="link-dark">

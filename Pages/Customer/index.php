@@ -73,6 +73,45 @@
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
+
+                    echo '<div class="col">';
+                    echo '<div class="card">';
+                    // echo '<img src="../../Assets/Images/tailor1.jpg" class="card-img-top" alt="...">';
+                    // image url should be fetched from the database
+                    echo '<img src="' . $tailorImg . '" class="card-img-top" alt="...">';
+                    echo '<div class="card-body">';
+                    echo '<h5 class="card-title">' . $name . '</h5>';
+                    echo '<p class="card-text">I am a tailor with ' . $experience . ' years of experience in the field.</p>';
+                    echo '</div>';
+                    echo '<div class="d-flex justify-content-between align-items-center mb-5 mt-2">';
+                    echo '<div class="rate">';
+                    echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                    echo '<span>(' . $reviews . ' Reviews)</span>';
+                    echo '</div>';
+                    echo '<a href="../Tailor/tailorProfile.php?id=' . $tailorId . '" class="btn btn-primary">Hire</a>'; // Link to the tailor's profile
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+
+
+                    echo '<div class="col">';
+                    echo '<div class="card">';
+                    // echo '<img src="../../Assets/Images/tailor1.jpg" class="card-img-top" alt="...">';
+                    // image url should be fetched from the database
+                    echo '<img src="' . $tailorImg . '" class="card-img-top" alt="...">';
+                    echo '<div class="card-body">';
+                    echo '<h5 class="card-title">' . $name . '</h5>';
+                    echo '<p class="card-text">I am a tailor with ' . $experience . ' years of experience in the field.</p>';
+                    echo '</div>';
+                    echo '<div class="d-flex justify-content-between align-items-center mb-5 mt-2">';
+                    echo '<div class="rate">';
+                    echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                    echo '<span>(' . $reviews . ' Reviews)</span>';
+                    echo '</div>';
+                    echo '<a href="../Tailor/tailorProfile.php?id=' . $tailorId . '" class="btn btn-primary">Hire</a>'; // Link to the tailor's profile
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
                 }
             }
             ?>

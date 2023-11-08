@@ -1,5 +1,4 @@
 <?php
-session_start();
 $user_type = $_SESSION['user_type'];
 ?>
 <!DOCTYPE html>
@@ -121,7 +120,8 @@ $user_type = $_SESSION['user_type'];
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="color:black; background-color: black; height:100px;">
-                            <a class="dropdown-item" href="../../Pages/Other/AddRate.php">Add Rating</a>
+                        <a class="dropdown-item" href="../Tailor/incomeReport.php">Income Report</a>
+
                             <a class="dropdown-item" href="../../Pages/Other/ManageRating.php">Manage Rating</a>
 
                         </div>

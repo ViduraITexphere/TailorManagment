@@ -21,6 +21,8 @@ include_once('../../inc/conn.php');
 
 if (isset($_GET['id'])) {
     $tailorId = $_GET['id'];
+    // save the tailor ID in session so that it can be used in other pages
+    $_SESSION['tailor_id'] = $tailorId;
 
     // Query the database to get the tailor's details based on the ID
     $sql = "SELECT name, image, categories FROM tailors WHERE id = $tailorId";
