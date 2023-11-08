@@ -90,29 +90,28 @@ $user_type = $_SESSION['user_type'];
     </script>
 
 
-    <div class="row">
+<div class="row">
+    <div class="sidebar">
+        <div class="sidebar_logo">
+            <img src="https://i.postimg.cc/c1jsCB7t/Logo.png" alt="logo">
+        </div>
+        <hr />
 
-        <div class="sidebar">
-            <div class="sidebar_logo">
-                <img src="https://i.postimg.cc/c1jsCB7t/Logo.png" alt="logo">
-            </div>
-            <hr />
-
-            <div class="sidebar_menu">
-                <?php if ($user_type == "tailor") { ?>
-                    <div class="sidebar_menu_item">
-                        <i class="bi bi-p-square-fill"></i>
-                        <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
-                            <a href="../../Pages/Tailor/manageOrders.php">
-                                Manage Orders
-                            </a>
-                    </div>
-                    <div class="sidebar_menu_item">
+        <div class="sidebar_menu">
+            <?php if ($user_type == "tailor") { ?>
+                <div class="sidebar_menu_item">
+                    <i class="bi bi-p-square-fill"></i>
+                    <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
+                        <a href="../../Pages/Tailor/manageOrders.php">
+                            Manage Orders
+                        </a>
+                </div>
+                <div class="sidebar_menu_item">
                         <i class="bi bi-person-fill"></i>
                         <a href="Users.php">Profile</a>
-                    </div>
+                </div>
 
-                    <div class="sidebar_menu_item">
+                <div class="sidebar_menu_item">
                         <i class="bi bi-p-square-fill"></i>
                         <a type="text" data-toggle="dropdown" style="color:aliceblue">
                             Reports
@@ -120,24 +119,50 @@ $user_type = $_SESSION['user_type'];
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="color:black; background-color: black; height:100px;">
-                        <a class="dropdown-item" href="../Tailor/incomeReport.php">Income Report</a>
-
+                            <a class="dropdown-item" href="../Tailor/incomeReport.php">Income Report</a>
                             <a class="dropdown-item" href="../../Pages/Other/ManageRating.php">Manage Rating</a>
-
                         </div>
-                    </div>
-
-                <?php }
-                if ($user_type == "user") { ?>
-                    <div class="sidebar_menu_item">
-                        <i class="bi bi-p-square-fill"></i>
-                        <a href="../../Pages/User/Home/my_bookings.php">My Bookings</a>
-                    </div>
-                <?php } ?>
-            </div>
-
+                </div>
+            <?php } elseif ($user_type == "admin") { ?>
+                <div class="sidebar_menu_item">
+                    <i class="bi bi-p-square-fill"></i>
+                    <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
+                        <a href="../../Pages/Admin/manageUsers.php">
+                            Manage Users
+                        </a>
+                </div>
+                <div class="sidebar_menu_item">
+                    <i class="bi bi-p-square-fill"></i>
+                    <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
+                        <a href="../../Pages/Admin/manageTailors.php">
+                            Manage Tailors
+                        </a>
+                </div>
+                <div class="sidebar_menu_item">
+                    <i class="bi bi-p-square-fill"></i>
+                    <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
+                        <a href="../../Pages/Admin/manageCustomers.php">
+                            Manage Customers
+                        </a>
+                </div>
+                <div class="sidebar_menu_item">
+                    <i class="bi bi-p-square-fill"></i>
+                    <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
+                        <a href="../../Pages/Admin/manageOrders.php">
+                            Manage Orders
+                        </a>
+                </div>
+                <div class="sidebar_menu_item">
+                    <i class="bi bi-p-square-fill"></i>
+                    <a href="Users.php" type="text" data-toggle="dropdown" style="color:aliceblue">
+                        <a href="../../Pages/Admin/manageRatings.php">
+                            Manage Ratings
+                        </a>
+                </div>
+            <?php } ?>
         </div>
     </div>
+</div>
 </body>
 
 </html>
