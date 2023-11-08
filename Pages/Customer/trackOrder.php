@@ -59,15 +59,15 @@
     <script>
         function calculateProgress(status) {
             switch (status) {
-                case 'Processing':
+                case 'Pending':
                     return 0; // 10%
-                case 'Cutting':
-                    return 25; // 25%
                 case 'Sewing':
+                    return 25; // 25%
+                case 'Processing':
                     return 50; // 50%
-                case 'Ironing':
+                case 'Shipped':
                     return 70; // 70%
-                case 'Completed':
+                case 'Delivered':
                     return 100; // 100%
                 default:
                     return 0; // 0%

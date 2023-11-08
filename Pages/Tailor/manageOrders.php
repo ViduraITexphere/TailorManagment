@@ -95,6 +95,7 @@ session_start();
                                 <th scope="col">Order Date</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Paid Status</th>
+                                <th scope="col">Order Status</th>
                                 <th scope="col">Action</th>
 
 
@@ -162,7 +163,27 @@ session_start();
                                         <td><?php echo $row['cus_id'] ?></td>
                                         <td><?php echo $row['order_date'] ?></td>
                                         <td><?php echo $row['category'] ?></td>
-                                        <td><?php echo $row['pay_status'] ?></td>
+                                        <?php
+                                        // check pay_status or cost
+                                        if ($row['pay_status'] == null) {
+                                            $pay_status = "Not Paid";
+                                        } else {
+                                            $pay_status = $row['pay_status'];
+                                        }
+                                        ?>
+                                        <td><?php echo $pay_status ?></td>
+                                        <!-- need to add order_status to track order using dropdown -->
+                                        <td>
+                                            <select class="form-control order-status" data-order-id="<?php echo $row['order_id']; ?>">
+                                            
+                                                <option value="Pending">Pending</option>
+                                                <option value="Sewing">Sewing</option>
+                                                <option value="Processing">Processing</option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="Delivered">Delivered</option>
+                                            </select>
+                                        </td>
+                                        
                                         <td>
                                             <a href="#" class="link-dark edit-link" data-toggle="modal" data-target="#viewMeasurementsModal" data-order-id="<?php echo $row['order_id']; ?>">
                                                 <i class="fa-solid fa-pen-to-square fs-5 me-3"></i>
@@ -420,6 +441,40 @@ session_start();
                 // Rest of your code...
             });
         </script>
+        <script>
+    // Handle the order status change
+    $('.order-status').change(function() {
+        var orderId = $(this).data('order-id');
+        var orderStatus = $(this).val();
+
+        console.log('Order ID:', orderId);
+        console.log('Order Status:', orderStatus);
+
+        // Use AJAX to update the order status
+        $.ajax({
+            url: 'update_order_status.php', // Create this PHP script to handle the update
+            type: 'POST',
+            data: {
+                order_id: orderId,
+                order_status: orderStatus
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Optionally show a success message or handle the update as needed
+                    console.log('Response:', response);
+                } else {
+                    console.error(response.error);
+                    // Handle the error, display an error message, etc.
+                }
+            },
+            error: function(xhr, status, error) {
+              
+            }
+        });
+    });
+</script>
+
 
 
 

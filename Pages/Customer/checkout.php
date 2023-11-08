@@ -28,6 +28,7 @@ if (isset($_GET['order_id'])) {
 
 <head>
     <title>Checkout</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo PAYPAL_SANDBOX ? PAYPAL_SANDBOX_CLIENT_ID : PAYPAL_PROD_CLIENT_ID; ?>&currency=USD"></script>
     <style>
         @font-face {
@@ -156,6 +157,7 @@ if (isset($_GET['order_id'])) {
             </form>
         </div>
     </div>
+
     <script>
         paypal.Buttons({
             // Set up the transaction
@@ -169,21 +171,38 @@ if (isset($_GET['order_id'])) {
                 });
             },
             // Finalize the transaction
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(orderData) {
-                    // Successful capture! For demo purposes:
-                    console.log(orderData.id);
-                    console.log(orderData.status);
+onApprove: function(data, actions) {
+    return actions.order.capture().then(function(orderData) {
+        // Successful capture! For demo purposes:
+        console.log(orderData.id);
+        console.log(orderData.status);
 
-                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                    let transaction = orderData.purchase_units[0].payments.captures[0];
-                    alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
-                    console.log("Transaction details:\n", transaction);
+        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+        let transaction = orderData.purchase_units[0].payments.captures[0];
+        alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+        console.log("Transaction details:\n", transaction);
 
-                    // redirect to success page
-                    window.location.href = "success.php?order_id=<?php echo $order_id; ?>&transaction_id=" + transaction.id;
-                });
+        // Send the AJAX request to update the database
+        $.ajax({
+            url: 'update_order.php',
+            method: 'POST',
+            data: {
+                order_id: <?php echo $order_id; ?>,
+                billing_address: $('#billing_address').val(),
+                mobile: $('#mobile').val()
+            },
+            success: function(response) {
+                console.log('Data updated successfully:', response);
+                
+                // Redirect to the success page after the update
+                window.location.href = "success.php?order_id=<?php echo $order_id; ?>&transaction_id=" + orderData.id;
+            },
+            error: function() {
+                console.error('Error updating data');
             }
+        });
+    });
+}
         }).render('#paypal-button-container');
     </script>
 </body>
